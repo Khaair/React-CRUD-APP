@@ -29,7 +29,7 @@ import React, { useState } from 'react';
     }
   return(
     <div className='container'>
-    <form action="https://stoic-wescoff-8712cc.netlify.app/" onSubmit={saveData}>
+    <form action="" onSubmit={saveData}>
 
     <div className="form-group mt-5 ">
     <label htmlFor="">Enter Name</label>
@@ -38,7 +38,7 @@ import React, { useState } from 'react';
 
     <div className="form-group mt-3">
     <label htmlFor="">Enter Email</label>
-    <input onChange={handleEmailChange} value={email} type="text" className="form-control" id="" placeholder="Email" />
+    <input onChange={handleEmailChange} value={email} type="email" className="form-control" id="" placeholder="Email" />
     </div>
 
     <div className="form-group mt-3">
