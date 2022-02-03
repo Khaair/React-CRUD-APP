@@ -1,23 +1,49 @@
-import React from 'react';
 
- function Form() {
+import React, { useState } from 'react';
+
+ function Form(props) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleNameChange = (e) => {
+    setName(e.target.value)
+  }
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+    }
+
+    const handlePasswordChange = (e) => {
+      setPassword(e.target.value)
+      }
+
+     
+    
+      const saveData = (e) => {
+        e.preventDefault();
+       props.fetch({name,email,password});
+       setName('');
+       setEmail(''); 
+       setPassword('');
+    }
   return(
     <div className='container'>
-    <form>
+    <form action="" onSubmit={saveData}>
+
     <div className="form-group mt-5 ">
-
-    <label htmlFor="exampleInputEmail1">Enter Name</label>
-    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name" />
+    <label htmlFor="">Enter Name</label>
+    <input onChange={handleNameChange} value={name} name="firstname" type="text" className="form-control" id="" placeholder="Name" />
     </div>
 
     <div className="form-group mt-3">
-    <label htmlFor="exampleInputPassword1">Enter Email</label>
-    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Email" />
+    <label htmlFor="">Enter Email</label>
+    <input onChange={handleEmailChange} value={email} type="text" className="form-control" id="" placeholder="Email" />
     </div>
 
     <div className="form-group mt-3">
-    <label htmlFor="exampleInputPassword1">Enter Password</label>
-    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+    <label htmlFor="">Enter Password</label>
+    <input onChange={handlePasswordChange} value={password} type="password" className="form-control" id="" placeholder="Password" />
     </div>
  
     <button type="submit" className="btn btn-primary mt-3">Submit</button>

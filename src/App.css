@@ -28,3 +28,7 @@
 .ll:hover {
   color: orange;
 }
+
+.mright {
+  margin-right: 10px;
+}
