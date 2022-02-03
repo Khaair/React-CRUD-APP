@@ -29,7 +29,7 @@ import React, { useState } from 'react';
     }
   return(
     <div className='container'>
-    <form action="/" onSubmit={saveData}>
+    <form action="" onSubmit={saveData}>
 
     <div className="form-group mt-5 ">
     <label htmlFor="">Enter Name</label>
