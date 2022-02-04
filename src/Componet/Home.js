@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
  function Home({datas,DeleteFn}) {
   return(
@@ -23,7 +24,7 @@ import React from 'react';
         <td>{el.name}</td>
         <td>{el.email}</td>
         <td>{el.password}</td>
-        <td><button className="btn btn-success mright">Edit</button><button onClick={()=>DeleteFn(ind)} className="btn btn-danger" >Delete</button></td>
+        <td><Link to={`/edit/${ind}`}><button className="btn btn-success mright">Edit</button></Link><button onClick={()=>DeleteFn(ind)} className="btn btn-danger" >Delete</button></td>
       </tr>
             )
 
