@@ -1,52 +1,43 @@
 
-import React, { useState } from 'react';
+  
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
  function Form(props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleNameChange = (e) => {
-    setName(e.target.value)
+  const [title,setTitle]=useState('');
+  const [author,setAuthor]=useState('');
+  const [body ,setBody]=useState('');
+  const navigate=useNavigate();
+  
+  const sendDatatoApp=async ()=>{
+  
+    try{
+       let x= await axios.post('http://localhost:4000/api/save',{title,body,author})
+       console.log(x,'success')
+    }catch(er){
+      console.log(er)
+    }
+  
+      navigate('/')
   }
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value)
-    }
-
-    const handlePasswordChange = (e) => {
-      setPassword(e.target.value)
-      }
-
-     
-    
-      const saveData = (e) => {
-        e.preventDefault();
-       props.fetch({name,email,password});
-       setName('');
-       setEmail(''); 
-       setPassword('');
-    }
+  
   return(
     <div className='container'>
-    <form action="" onSubmit={saveData}>
-
+    <form action="">
     <div className="form-group mt-5 ">
-    <label htmlFor="">Enter Name</label>
-    <input onChange={handleNameChange} value={name} name="firstname" type="text" className="form-control" id="" placeholder="Name" />
+    <label htmlFor="">Enter Title</label>
+    <input className="form-control" value={title} onChange={(e)=>setTitle(e.target.value)} style={{margin:"12px"}} placeholder="Enter title"/>
     </div>
-
-    <div className="form-group mt-3">
-    <label htmlFor="">Enter Email</label>
-    <input onChange={handleEmailChange} value={email} type="email" className="form-control" id="" placeholder="Email" />
-    </div>
-
-    <div className="form-group mt-3">
-    <label htmlFor="">Enter Password</label>
-    <input onChange={handlePasswordChange} value={password} type="password" className="form-control" id="" placeholder="Password" />
-    </div>
- 
-    <button type="submit" className="btn btn-primary mt-3">Submit</button>
+    <div className="form-group mt-5 ">
+    <label htmlFor="">Enter Author</label>
+        <input className="form-control" value={author} onChange={(e)=>setAuthor(e.target.value)}  style={{margin:"12px"}} placeholder="Enter author"/>
+        </div>
+        <div className="form-group mt-5 ">
+    <label htmlFor="">Enter Body</label>
+        <input className="form-control" value={body} onChange={(e)=>setBody(e.target.value)} style={{margin:"12px"}} placeholder="Enter body"/>
+        </div>
+        <button className="btn btn-primary mt-3" type="button" onClick={sendDatatoApp} >Save</button>
     </form>
 
     </div>

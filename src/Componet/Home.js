@@ -1,41 +1,84 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
- function Home({datas,DeleteFn}) {
-  return(
+
+
+
+
+
+
+function Home({ datas, DeleteFn }) {
+
+  const [data, setData] = useState([]);
+
+  useEffect(async () => {
+    let data = await axios.get("http://localhost:4000/api/show");
+
+    console.log(data)
+
+    console.log(data.data, "my data from database");
+    setData(data.data);
+  }, []);
+
+
+  const deleteMe = async (id) => {
+    try {
+      let mydata = await axios.delete(`http://localhost:4000/api/delete/${id}`);
+      console.log(mydata);
+
+
+      const filterd=data.filter(a=>a._id!=id);
+      setData(filterd)
+
+
+    } catch (er) {
+      console.log(er);
+    }
+  };
+
+
+  return (
     <div className='container mt-5'>
       <table className="table table-dark">
-    <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Password</th>
-      <th scope="col">Edit\Delete</th>
-    </tr>
-    </thead>
-    <tbody>
-        {/* {JSON.stringify(datas)} */}
+        <thead>
+          <tr>
+          <th scope="col">Sl</th>
+          <th scope="col">title</th>
+          <th scope="col">author</th>
+          <th scope="col">body</th>
+          <th scope="col">edit/delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* {JSON.stringify(datas)} */}
 
-        {datas.map((el,ind)=>{
-            return(
-          <tr key={ind}>
-        <th scope="row">{ind+1}</th>
-        <td>{el.name}</td>
-        <td>{el.email}</td>
-        <td>{el.password}</td>
-        <td><Link to={`/edit/${ind}`}><button className="btn btn-success mright">Edit</button></Link><button onClick={()=>DeleteFn(ind)} className="btn btn-danger" >Delete</button></td>
-      </tr>
+          {data.map((el, ind) => {
+            return (
+              <tr key={ind}>
+                <th scope="row">{ind + 1}</th>
+                <td>{el.title}</td>
+                <td>{el.author}</td>
+                <td>{el.body}</td>
+                <td>
+                <Link to={`/edit/${el._id}`}><button className="btn btn-success mright">
+                  {" "}
+                 Edit</button></Link>
+                
+                 
+                <button onClick={() => deleteMe(el._id)} className="btn btn-danger" >Delete</button>
+                </td>
+              </tr>
             )
 
-        })}
-      
-      
-    </tbody>
-</table>
+          })}
+
+
+        </tbody>
+      </table>
 
     </div>
-    
+
   )
 }
 
