@@ -1,53 +1,44 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-
-
-
-
-
-
 function Home({ datas, DeleteFn }) {
-
   const [data, setData] = useState([]);
 
-  useEffect(async () => {
-    let data = await axios.get("http://localhost:4000/api/show");
+  const fetchdata = async () => {
+    try {
+      const datahere = await axios.get("http://localhost:4000/api/show");
+      setData(datahere.data);
+    } catch (err) {
+      console.log(err, "error");
+    }
+  };
 
-    console.log(data)
-
-    console.log(data.data, "my data from database");
-    setData(data.data);
+  useEffect(() => {
+    fetchdata();
   }, []);
-
 
   const deleteMe = async (id) => {
     try {
       let mydata = await axios.delete(`http://localhost:4000/api/delete/${id}`);
       console.log(mydata);
 
-
-      const filterd=data.filter(a=>a._id!=id);
-      setData(filterd)
-
-
+      const filterd = data.filter((a) => a._id !== id);
+      setData(filterd);
     } catch (er) {
       console.log(er);
     }
   };
 
-
   return (
-    <div className='container mt-5'>
+    <div className="container mt-5">
       <table className="table table-dark">
         <thead>
           <tr>
-          <th scope="col">Sl</th>
-          <th scope="col">title</th>
-          <th scope="col">author</th>
-          <th scope="col">body</th>
-          <th scope="col">edit/delete</th>
+            <th scope="col">Sl</th>
+            <th scope="col">title</th>
+            <th scope="col">author</th>
+            <th scope="col">body</th>
+            <th scope="col">edit/delete</th>
           </tr>
         </thead>
         <tbody>
@@ -61,25 +52,24 @@ function Home({ datas, DeleteFn }) {
                 <td>{el.author}</td>
                 <td>{el.body}</td>
                 <td>
-                <Link to={`/edit/${el._id}`}><button className="btn btn-success mright">
-                  {" "}
-                 Edit</button></Link>
-                
-                 
-                <button onClick={() => deleteMe(el._id)} className="btn btn-danger" >Delete</button>
+                  <Link to={`/edit/${el._id}`}>
+                    <button className="btn btn-success mright"> Edit</button>
+                  </Link>
+
+                  <button
+                    onClick={() => deleteMe(el._id)}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
-            )
-
+            );
           })}
-
-
         </tbody>
       </table>
-
     </div>
-
-  )
+  );
 }
 
-export default Home
+export default Home;

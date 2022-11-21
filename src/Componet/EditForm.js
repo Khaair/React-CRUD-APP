@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -11,13 +10,25 @@ const EditForm = ({ data, up }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(async () => {
-    let myData = await axios.get(`http://localhost:4000/api/showSIngle/${id}`);
-    console.log(myData);
-    setTitle(myData.data.title);
-    setAuthor(myData.data.author);
-    setBody(myData.data.body);
-  }, []);
+  const fetchdata = async () => {
+    try {
+      const data = await axios.get(
+        `http://localhost:4000/api/showSIngle/${id}`
+      );
+
+      console.log(data, "update data here");
+
+      setTitle(data.data.title);
+      setAuthor(data.data.author);
+      setBody(data.data.body);
+    } catch (err) {
+      console.log(err, "error");
+    }
+  };
+
+  useEffect(() => {
+    fetchdata();
+  }, [id]);
 
   const upDate = async () => {
     try {
@@ -60,6 +71,6 @@ const EditForm = ({ data, up }) => {
       </div>
     </div>
   );
-}
+};
 
-export default EditForm
+export default EditForm;
